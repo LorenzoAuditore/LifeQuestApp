@@ -1,0 +1,2544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quest Journal - Skyrim Style</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+:root {
+  /* Colors */
+  --color-background: rgba(252, 252, 249, 1);
+  --color-surface: rgba(255, 255, 253, 1);
+  --color-text: rgba(19, 52, 59, 1);
+  --color-text-secondary: rgba(98, 108, 113, 1);
+  --color-primary: rgba(33, 128, 141, 1);
+  --color-primary-hover: rgba(29, 116, 128, 1);
+  --color-primary-active: rgba(26, 104, 115, 1);
+  --color-secondary: rgba(94, 82, 64, 0.12);
+  --color-secondary-hover: rgba(94, 82, 64, 0.2);
+  --color-secondary-active: rgba(94, 82, 64, 0.25);
+  --color-border: rgba(94, 82, 64, 0.2);
+  --color-btn-primary-text: rgba(252, 252, 249, 1);
+  --color-card-border: rgba(94, 82, 64, 0.12);
+  --color-card-border-inner: rgba(94, 82, 64, 0.12);
+  --color-error: rgba(192, 21, 47, 1);
+  --color-success: rgba(33, 128, 141, 1);
+  --color-warning: rgba(168, 75, 47, 1);
+  --color-info: rgba(98, 108, 113, 1);
+  --color-focus-ring: rgba(33, 128, 141, 0.4);
+  --color-select-caret: rgba(19, 52, 59, 0.8);
+
+  /* Common style patterns */
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+  /* RGB versions for opacity control */
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+
+  /* Typography */
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04),
+    0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: rgba(31, 33, 33, 1);
+    --color-surface: rgba(38, 40, 40, 1);
+    --color-text: rgba(245, 245, 245, 1);
+    --color-text-secondary: rgba(167, 169, 169, 0.7);
+    --color-primary: rgba(50, 184, 198, 1);
+    --color-primary-hover: rgba(45, 166, 178, 1);
+    --color-primary-active: rgba(41, 150, 161, 1);
+    --color-secondary: rgba(119, 124, 124, 0.15);
+    --color-secondary-hover: rgba(119, 124, 124, 0.25);
+    --color-secondary-active: rgba(119, 124, 124, 0.3);
+    --color-border: rgba(119, 124, 124, 0.3);
+    --color-error: rgba(255, 84, 89, 1);
+    --color-success: rgba(50, 184, 198, 1);
+    --color-warning: rgba(230, 129, 97, 1);
+    --color-info: rgba(167, 169, 169, 1);
+    --color-focus-ring: rgba(50, 184, 198, 0.4);
+    --color-btn-primary-text: rgba(19, 52, 59, 1);
+    --color-card-border: rgba(119, 124, 124, 0.2);
+    --color-card-border-inner: rgba(119, 124, 124, 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --button-border-secondary: rgba(119, 124, 124, 0.2);
+    --color-border-secondary: rgba(119, 124, 124, 0.2);
+    --color-select-caret: rgba(245, 245, 245, 0.8);
+
+    /* Common style patterns - updated for dark mode */
+    --focus-ring: 0 0 0 3px var(--color-focus-ring);
+    --focus-outline: 2px solid var(--color-primary);
+    --status-bg-opacity: 0.15;
+    --status-border-opacity: 0.25;
+    --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+    /* RGB versions for dark mode */
+    --color-success-rgb: 50, 184, 198;
+    --color-error-rgb: 255, 84, 89;
+    --color-warning-rgb: 230, 129, 97;
+    --color-info-rgb: 167, 169, 169;
+  }
+}
+
+/* Data attribute for manual theme switching */
+[data-color-scheme="dark"] {
+  --color-background: rgba(31, 33, 33, 1);
+  --color-surface: rgba(38, 40, 40, 1);
+  --color-text: rgba(245, 245, 245, 1);
+  --color-text-secondary: rgba(167, 169, 169, 0.7);
+  --color-primary: rgba(50, 184, 198, 1);
+  --color-primary-hover: rgba(45, 166, 178, 1);
+  --color-primary-active: rgba(41, 150, 161, 1);
+  --color-secondary: rgba(119, 124, 124, 0.15);
+  --color-secondary-hover: rgba(119, 124, 124, 0.25);
+  --color-secondary-active: rgba(119, 124, 124, 0.3);
+  --color-border: rgba(119, 124, 124, 0.3);
+  --color-error: rgba(255, 84, 89, 1);
+  --color-success: rgba(50, 184, 198, 1);
+  --color-warning: rgba(230, 129, 97, 1);
+  --color-info: rgba(167, 169, 169, 1);
+  --color-focus-ring: rgba(50, 184, 198, 0.4);
+  --color-btn-primary-text: rgba(19, 52, 59, 1);
+  --color-card-border: rgba(119, 124, 124, 0.15);
+  --color-card-border-inner: rgba(119, 124, 124, 0.15);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  --color-border-secondary: rgba(119, 124, 124, 0.2);
+  --color-select-caret: rgba(245, 245, 245, 0.8);
+
+  /* Common style patterns - updated for dark mode */
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+  /* RGB versions for dark mode */
+  --color-success-rgb: 50, 184, 198;
+  --color-error-rgb: 255, 84, 89;
+  --color-warning-rgb: 230, 129, 97;
+  --color-info-rgb: 167, 169, 169;
+}
+
+[data-color-scheme="light"] {
+  --color-background: rgba(252, 252, 249, 1);
+  --color-surface: rgba(255, 255, 253, 1);
+  --color-text: rgba(19, 52, 59, 1);
+  --color-text-secondary: rgba(98, 108, 113, 1);
+  --color-primary: rgba(33, 128, 141, 1);
+  --color-primary-hover: rgba(29, 116, 128, 1);
+  --color-primary-active: rgba(26, 104, 115, 1);
+  --color-secondary: rgba(94, 82, 64, 0.12);
+  --color-secondary-hover: rgba(94, 82, 64, 0.2);
+  --color-secondary-active: rgba(94, 82, 64, 0.25);
+  --color-border: rgba(94, 82, 64, 0.2);
+  --color-btn-primary-text: rgba(252, 252, 249, 1);
+  --color-card-border: rgba(94, 82, 64, 0.12);
+  --color-card-border-inner: rgba(94, 82, 64, 0.12);
+  --color-error: rgba(192, 21, 47, 1);
+  --color-success: rgba(33, 128, 141, 1);
+  --color-warning: rgba(168, 75, 47, 1);
+  --color-info: rgba(98, 108, 113, 1);
+  --color-focus-ring: rgba(33, 128, 141, 0.4);
+
+  /* RGB versions for light mode */
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+}
+
+/* Base styles */
+html {
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+h1 {
+  font-size: var(--font-size-4xl);
+}
+h2 {
+  font-size: var(--font-size-3xl);
+}
+h3 {
+  font-size: var(--font-size-2xl);
+}
+h4 {
+  font-size: var(--font-size-xl);
+}
+h5 {
+  font-size: var(--font-size-lg);
+}
+h6 {
+  font-size: var(--font-size-md);
+}
+
+p {
+  margin: 0 0 var(--space-16) 0;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+code,
+pre {
+  font-family: var(--font-family-mono);
+  font-size: calc(var(--font-size-base) * 0.95);
+  background-color: var(--color-secondary);
+  border-radius: var(--radius-sm);
+}
+
+code {
+  padding: var(--space-1) var(--space-4);
+}
+
+pre {
+  padding: var(--space-16);
+  margin: var(--space-16) 0;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+  border: none;
+  text-decoration: none;
+  position: relative;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn--primary:active {
+  background: var(--color-primary-active);
+}
+
+.btn--secondary {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn--secondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+.btn--secondary:active {
+  background: var(--color-secondary-active);
+}
+
+.btn--outline {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.btn--outline:hover {
+  background: var(--color-secondary);
+}
+
+.btn--sm {
+  padding: var(--space-4) var(--space-12);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-sm);
+}
+
+.btn--lg {
+  padding: var(--space-10) var(--space-20);
+  font-size: var(--font-size-lg);
+  border-radius: var(--radius-md);
+}
+
+.btn--full-width {
+  width: 100%;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Form elements */
+.form-control {
+  display: block;
+  width: 100%;
+  padding: var(--space-8) var(--space-12);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  transition: border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+textarea.form-control {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+}
+
+select.form-control {
+  padding: var(--space-8) var(--space-12);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: var(--select-caret-light);
+  background-repeat: no-repeat;
+  background-position: right var(--space-12) center;
+  background-size: 16px;
+  padding-right: var(--space-32);
+}
+
+/* Add a dark mode specific caret */
+@media (prefers-color-scheme: dark) {
+  select.form-control {
+    background-image: var(--select-caret-dark);
+  }
+}
+
+/* Also handle data-color-scheme */
+[data-color-scheme="dark"] select.form-control {
+  background-image: var(--select-caret-dark);
+}
+
+[data-color-scheme="light"] select.form-control {
+  background-image: var(--select-caret-light);
+}
+
+.form-control:focus {
+  border-color: var(--color-primary);
+  outline: var(--focus-outline);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--space-8);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+}
+
+.form-group {
+  margin-bottom: var(--space-16);
+}
+
+/* Card component */
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow var(--duration-normal) var(--ease-standard);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card__body {
+  padding: var(--space-16);
+}
+
+.card__header,
+.card__footer {
+  padding: var(--space-16);
+  border-bottom: 1px solid var(--color-card-border-inner);
+}
+
+/* Status indicators - simplified with CSS variables */
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-6) var(--space-12);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+}
+
+.status--success {
+  background-color: rgba(
+    var(--color-success-rgb, 33, 128, 141),
+    var(--status-bg-opacity)
+  );
+  color: var(--color-success);
+  border: 1px solid
+    rgba(var(--color-success-rgb, 33, 128, 141), var(--status-border-opacity));
+}
+
+.status--error {
+  background-color: rgba(
+    var(--color-error-rgb, 192, 21, 47),
+    var(--status-bg-opacity)
+  );
+  color: var(--color-error);
+  border: 1px solid
+    rgba(var(--color-error-rgb, 192, 21, 47), var(--status-border-opacity));
+}
+
+.status--warning {
+  background-color: rgba(
+    var(--color-warning-rgb, 168, 75, 47),
+    var(--status-bg-opacity)
+  );
+  color: var(--color-warning);
+  border: 1px solid
+    rgba(var(--color-warning-rgb, 168, 75, 47), var(--status-border-opacity));
+}
+
+.status--info {
+  background-color: rgba(
+    var(--color-info-rgb, 98, 108, 113),
+    var(--status-bg-opacity)
+  );
+  color: var(--color-info);
+  border: 1px solid
+    rgba(var(--color-info-rgb, 98, 108, 113), var(--status-border-opacity));
+}
+
+/* Container layout */
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: var(--space-16);
+  padding-left: var(--space-16);
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: var(--container-sm);
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: var(--container-md);
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    max-width: var(--container-lg);
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    max-width: var(--container-xl);
+  }
+}
+
+/* Utility classes */
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-4 {
+  gap: var(--space-4);
+}
+.gap-8 {
+  gap: var(--space-8);
+}
+.gap-16 {
+  gap: var(--space-16);
+}
+
+.m-0 {
+  margin: 0;
+}
+.mt-8 {
+  margin-top: var(--space-8);
+}
+.mb-8 {
+  margin-bottom: var(--space-8);
+}
+.mx-8 {
+  margin-left: var(--space-8);
+  margin-right: var(--space-8);
+}
+.my-8 {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.p-0 {
+  padding: 0;
+}
+.py-8 {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+.px-8 {
+  padding-left: var(--space-8);
+  padding-right: var(--space-8);
+}
+.py-16 {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-16);
+}
+.px-16 {
+  padding-left: var(--space-16);
+  padding-right: var(--space-16);
+}
+
+.block {
+  display: block;
+}
+.hidden {
+  display: none;
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+}
+
+/* Dark mode specifics */
+[data-color-scheme="dark"] .btn--outline {
+  border: 1px solid var(--color-border-secondary);
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://www.perplexity.ai/fonts/FKGroteskNeue.woff2')
+    format('woff2');
+}
+
+/* Skyrim Quest Journal Styles */
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  background: linear-gradient(135deg, #1a1410 0%, #2c1810 50%, #1a1410 100%);
+  color: #d4c4a0;
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.5px;
+}
+
+/* App Container */
+.app-container {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, #1a1410 0%, #2c1810 50%, #1a1410 100%);
+  position: relative;
+}
+
+.app-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 2px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 2px
+    );
+  pointer-events: none;
+}
+
+/* Header */
+.quest-header {
+  padding: 20px 40px;
+  background: 
+    linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.2) 50%, transparent 100%),
+    linear-gradient(135deg, #2c1810 0%, #3d2418 100%);
+  border-bottom: 3px solid #D4AF37;
+  box-shadow: 
+    inset 0 -3px 6px rgba(0, 0, 0, 0.5),
+    0 3px 10px rgba(0, 0, 0, 0.8);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quest-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      rgba(212, 175, 55, 0.1) 1px,
+      transparent 4px
+    );
+  pointer-events: none;
+}
+
+.quest-title {
+  font-size: 2.5em;
+  color: #D4AF37;
+  text-align: center;
+  text-shadow: 
+    0 0 10px rgba(212, 175, 55, 0.5),
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(212, 175, 55, 0.3);
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.header-ornament {
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0%, #D4AF37 50%, transparent 100%);
+  position: relative;
+}
+
+.header-ornament::before,
+.header-ornament::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #D4AF37;
+  border-radius: 50%;
+  top: -2px;
+}
+
+.header-ornament.left::before { left: 20%; }
+.header-ornament.left::after { left: 80%; }
+.header-ornament.right::before { right: 20%; }
+.header-ornament.right::after { right: 80%; }
+
+/* Main Layout */
+.quest-main {
+  display: flex;
+  min-height: calc(100vh - 120px);
+  gap: 0;
+}
+
+/* Sidebar */
+.quest-sidebar {
+  width: 35%;
+  background: 
+    linear-gradient(45deg, #2c1810 0%, #3d2418 30%, #2c1810 70%, #3d2418 100%);
+  border-right: 3px solid #D4AF37;
+  box-shadow: 
+    inset -3px 0 6px rgba(0, 0, 0, 0.5),
+    3px 0 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow-y: auto;
+}
+
+.quest-sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      rgba(212, 175, 55, 0.05) 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+}
+
+.sidebar-content {
+  padding: 30px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Quest Categories */
+.category-section {
+  margin-bottom: 25px;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  background: 
+    linear-gradient(135deg, rgba(44, 24, 16, 0.8) 0%, rgba(61, 36, 24, 0.8) 100%);
+  box-shadow: 
+    inset 0 2px 4px rgba(212, 175, 55, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.category-header {
+  padding: 15px 20px;
+  background: 
+    linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, rgba(184, 134, 11, 0.3) 100%);
+  color: #D4AF37;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  font-size: 1.1em;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.category-header:hover {
+  background: 
+    linear-gradient(90deg, rgba(212, 175, 55, 0.3) 0%, rgba(184, 134, 11, 0.4) 100%);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+}
+
+.category-header::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #D4AF37 0%, #B8860B 100%);
+}
+
+.category-icon {
+  margin-right: 10px;
+  font-size: 1.2em;
+  text-shadow: 0 0 5px rgba(212, 175, 55, 0.8);
+}
+
+.category-toggle {
+  transition: transform 0.3s ease;
+  font-size: 0.9em;
+}
+
+.category-section.collapsed .category-toggle {
+  transform: rotate(-90deg);
+}
+
+.category-section.collapsed .quest-list {
+  display: none;
+}
+
+/* Quest List */
+.quest-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quest-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.05) 100%);
+}
+
+.quest-item:hover {
+  background: 
+    linear-gradient(90deg, rgba(212, 175, 55, 0.15) 0%, rgba(184, 134, 11, 0.2) 100%);
+  text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+}
+
+.quest-item.active {
+  background: 
+    linear-gradient(90deg, rgba(212, 175, 55, 0.25) 0%, rgba(184, 134, 11, 0.3) 100%);
+  border-left: 4px solid #D4AF37;
+  color: #D4AF37;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+}
+
+.quest-item-title {
+  font-weight: 500;
+  font-size: 1em;
+  margin-bottom: 4px;
+}
+
+.quest-item-meta {
+  font-size: 0.85em;
+  color: rgba(212, 196, 160, 0.7);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quest-status-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quest-status-badge.active {
+  background: rgba(212, 175, 55, 0.2);
+  color: #D4AF37;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.quest-status-badge.completed {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.quest-status-badge.abandoned {
+  background: rgba(244, 67, 54, 0.2);
+  color: #F44336;
+  border: 1px solid rgba(244, 67, 54, 0.4);
+}
+
+/* Sidebar Actions */
+.sidebar-actions {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Quest Details Panel */
+.quest-details {
+  width: 65%;
+  background: 
+    radial-gradient(circle at top left, rgba(61, 36, 24, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at bottom right, rgba(44, 24, 16, 0.3) 0%, transparent 50%),
+    linear-gradient(135deg, #2c1810 0%, #3d2418 50%, #2c1810 100%);
+  position: relative;
+  overflow-y: auto;
+}
+
+.quest-details::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="1" fill="rgba(212,175,55,0.1)"/></svg>');
+  pointer-events: none;
+}
+
+.quest-content {
+  padding: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Quest Placeholder */
+.quest-placeholder {
+  text-align: center;
+  padding: 80px 40px;
+  color: rgba(212, 196, 160, 0.6);
+}
+
+.placeholder-icon {
+  font-size: 4em;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.quest-placeholder h2 {
+  font-size: 2em;
+  margin-bottom: 15px;
+  color: rgba(212, 175, 55, 0.8);
+}
+
+.quest-placeholder p {
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+/* Quest Info Sections */
+.quest-info {
+  background: 
+    linear-gradient(135deg, rgba(61, 36, 24, 0.4) 0%, rgba(44, 24, 16, 0.6) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 
+    inset 0 2px 8px rgba(212, 175, 55, 0.1),
+    0 8px 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.quest-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, #D4AF37 50%, transparent 100%);
+}
+
+.quest-header-info {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.quest-name {
+  font-size: 2.2em;
+  color: #D4AF37;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.quest-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 1em;
+}
+
+.quest-meta span {
+  padding: 8px 15px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  color: #d4c4a0;
+}
+
+.quest-description, .quest-objectives, .quest-progress, .quest-reward {
+  margin-bottom: 30px;
+}
+
+.quest-description h3, .quest-objectives h3, .quest-progress h3, .quest-reward h3 {
+  font-size: 1.4em;
+  color: #D4AF37;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.description-text, .reward-text {
+  font-size: 1.1em;
+  line-height: 1.7;
+  color: #d4c4a0;
+  text-align: justify;
+}
+
+/* Objectives */
+.objectives-list {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.objective-item {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.objective-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #D4AF37;
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  background: rgba(44, 24, 16, 0.8);
+}
+
+.objective-checkbox.completed {
+  background: #D4AF37;
+}
+
+.objective-checkbox.completed::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #140C0C;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.objective-text {
+  flex: 1;
+  font-size: 1em;
+  color: #d4c4a0;
+}
+
+.objective-text.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Progress Logs */
+.progress-logs {
+  margin-bottom: 20px;
+}
+
+.progress-log {
+  padding: 15px;
+  margin-bottom: 15px;
+  background: rgba(61, 36, 24, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  border-left: 4px solid #D4AF37;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.9em;
+  color: rgba(212, 175, 55, 0.8);
+}
+
+.log-timestamp {
+  font-weight: 500;
+}
+
+.log-location {
+  font-style: italic;
+}
+
+.log-text {
+  color: #d4c4a0;
+  line-height: 1.6;
+  font-size: 1em;
+}
+
+/* Quest Actions */
+.quest-actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 1em;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-medieval {
+  background: 
+    linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+  color: #140C0C;
+  border: 2px solid #B8860B;
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.btn-medieval:hover {
+  background: 
+    linear-gradient(135deg, #E5C547 0%, #C9961B 100%);
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    0 6px 12px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-medieval:active {
+  transform: translateY(0);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.btn-sm {
+  padding: 8px 15px;
+  font-size: 0.9em;
+}
+
+.btn-add-quest {
+  width: 100%;
+  justify-content: center;
+  font-size: 1.1em;
+  padding: 15px 20px;
+}
+
+.btn-complete {
+  background: 
+    linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+  color: white;
+  border: 2px solid #388E3C;
+}
+
+.btn-complete:hover {
+  background: 
+    linear-gradient(135deg, #5CBF60 0%, #48A04C 100%);
+}
+
+.btn-abandon {
+  background: 
+    linear-gradient(135deg, #F44336 0%, #D32F2F 100%);
+  color: white;
+  border: 2px solid #D32F2F;
+}
+
+.btn-abandon:hover {
+  background: 
+    linear-gradient(135deg, #F55346 0%, #E33F3F 100%);
+}
+
+.btn-reactivate {
+  background: 
+    linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  color: white;
+  border: 2px solid #F57C00;
+}
+
+.btn-reactivate:hover {
+  background: 
+    linear-gradient(135deg, #FFA810 0%, #FF8F00 100%);
+}
+
+.btn-icon {
+  font-size: 1.1em;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: 
+    linear-gradient(135deg, #2c1810 0%, #3d2418 100%);
+  border: 3px solid #D4AF37;
+  border-radius: 12px;
+  box-shadow: 
+    inset 0 2px 8px rgba(212, 175, 55, 0.1),
+    0 20px 40px rgba(0, 0, 0, 0.8);
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  padding: 20px 30px;
+  background: 
+    linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, rgba(184, 134, 11, 0.3) 100%);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  color: #D4AF37;
+  font-size: 1.6em;
+}
+
+.modal-close {
+  color: #D4AF37;
+  font-size: 2em;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  color: #E5C547;
+  transform: scale(1.1);
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #D4AF37;
+  font-weight: 500;
+  font-size: 1em;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(61, 36, 24, 0.3);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  color: #d4c4a0;
+  font-size: 1em;
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #D4AF37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  background: rgba(61, 36, 24, 0.5);
+}
+
+.form-control::placeholder {
+  color: rgba(212, 196, 160, 0.5);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.char-counter {
+  text-align: right;
+  font-size: 0.85em;
+  color: rgba(212, 196, 160, 0.6);
+  margin-top: 5px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.btn-cancel {
+  background: rgba(61, 36, 24, 0.6);
+  color: #d4c4a0;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.btn-cancel:hover {
+  background: rgba(61, 36, 24, 0.8);
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.btn-primary {
+  background: 
+    linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+  color: #140C0C;
+  border: 2px solid #B8860B;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(44, 24, 16, 0.5);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: 
+    linear-gradient(180deg, #D4AF37 0%, #B8860B 100%);
+  border-radius: 6px;
+  border: 2px solid rgba(44, 24, 16, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: 
+    linear-gradient(180deg, #E5C547 0%, #C9961B 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .quest-main {
+    flex-direction: column;
+  }
+  
+  .quest-sidebar {
+    width: 100%;
+    max-height: 300px;
+  }
+  
+  .quest-details {
+    width: 100%;
+  }
+  
+  .quest-content {
+    padding: 20px;
+  }
+  
+  .quest-title {
+    font-size: 2em;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .quest-actions {
+    flex-direction: column;
+  }
+  
+  .quest-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="quest-header">
+            <div class="header-ornament left"></div>
+            <h1 class="quest-title">Quest Journal</h1>
+            <div class="header-ornament right"></div>
+            <div style="position: absolute; bottom: 5px; right: 20px; font-size: 0.8em; color: rgba(212, 175, 55, 0.6); font-style: italic;">
+                ✨ All changes saved automatically
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="quest-main">
+            <!-- Left Panel - Quest Categories & List -->
+            <aside class="quest-sidebar">
+                <div class="sidebar-content">
+                    <div class="quest-categories">
+                        <div class="category-section" data-category="Main Quests">
+                            <h3 class="category-header">
+                                <span class="category-icon">⚔️</span>
+                                Main Quests
+                                <span class="category-toggle">▼</span>
+                            </h3>
+                            <ul class="quest-list"></ul>
+                        </div>
+                        
+                        <div class="category-section" data-category="Side Quests">
+                            <h3 class="category-header">
+                                <span class="category-icon">🗡️</span>
+                                Side Quests
+                                <span class="category-toggle">▼</span>
+                            </h3>
+                            <ul class="quest-list"></ul>
+                        </div>
+                        
+                        <div class="category-section" data-category="Guild Quests">
+                            <h3 class="category-header">
+                                <span class="category-icon">🛡️</span>
+                                Guild Quests
+                                <span class="category-toggle">▼</span>
+                            </h3>
+                            <ul class="quest-list"></ul>
+                        </div>
+                        
+                        <div class="category-section" data-category="Personal Quests">
+                            <h3 class="category-header">
+                                <span class="category-icon">📜</span>
+                                Personal Quests
+                                <span class="category-toggle">▼</span>
+                            </h3>
+                            <ul class="quest-list"></ul>
+                        </div>
+                        
+                        <div class="category-section" data-category="Completed Quests">
+                            <h3 class="category-header">
+                                <span class="category-icon">✓</span>
+                                Completed Quests
+                                <span class="category-toggle">▼</span>
+                            </h3>
+                            <ul class="quest-list"></ul>
+                        </div>
+                        
+                        <div class="category-section" data-category="Abandoned Quests">
+                            <h3 class="category-header">
+                                <span class="category-icon">✗</span>
+                                Abandoned Quests
+                                <span class="category-toggle">▼</span>
+                            </h3>
+                            <ul class="quest-list"></ul>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-actions">
+                        <button class="btn btn-medieval btn-add-quest">
+                            <span class="btn-icon">📝</span>
+                            Add New Quest
+                        </button>
+                        <button class="btn btn-medieval btn-sm btn-reset" style="margin-top: 10px; width: 100%; background: rgba(61, 36, 24, 0.6); border-color: rgba(212, 175, 55, 0.3);">
+                            <span class="btn-icon">🔄</span>
+                            Reset to Sample Data
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Panel - Quest Details -->
+            <section class="quest-details">
+                <div class="quest-content">
+                    <div class="quest-placeholder">
+                        <div class="placeholder-icon">📖</div>
+                        <h2>Select a Quest</h2>
+                        <p>Choose a quest from the journal to view its details, objectives, and progress logs.</p>
+                    </div>
+                    
+                    <div class="quest-info" style="display: none;">
+                        <div class="quest-header-info">
+                            <h2 class="quest-name"></h2>
+                            <div class="quest-meta">
+                                <span class="quest-giver"></span>
+                                <span class="quest-location"></span>
+                                <span class="quest-level"></span>
+                                <span class="quest-status"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="quest-description">
+                            <h3>Description</h3>
+                            <p class="description-text"></p>
+                        </div>
+                        
+                        <div class="quest-objectives">
+                            <h3>Objectives</h3>
+                            <ul class="objectives-list"></ul>
+                            <button class="btn btn-medieval btn-sm btn-add-objective">
+                                <span class="btn-icon">+</span>
+                                Add Objective
+                            </button>
+                        </div>
+                        
+                        <div class="quest-progress">
+                            <h3>Progress Logs</h3>
+                            <div class="progress-logs"></div>
+                            <button class="btn btn-medieval btn-add-log">
+                                <span class="btn-icon">✒️</span>
+                                Add Progress Log
+                            </button>
+                        </div>
+                        
+                        <div class="quest-actions">
+                            <button class="btn btn-medieval btn-complete">
+                                <span class="btn-icon">✓</span>
+                                Complete Quest
+                            </button>
+                            <button class="btn btn-medieval btn-abandon">
+                                <span class="btn-icon">✗</span>
+                                Abandon Quest
+                            </button>
+                            <button class="btn btn-medieval btn-reactivate" style="display: none;">
+                                <span class="btn-icon">↻</span>
+                                Reactivate Quest
+                            </button>
+                        </div>
+                        
+                        <div class="quest-reward">
+                            <h3>Reward</h3>
+                            <p class="reward-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="addQuestModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Quest</h2>
+                <span class="modal-close">&times;</span>
+            </div>
+            <form id="addQuestForm" class="modal-body">
+                <div class="form-group">
+                    <label for="questTitle" class="form-label">Quest Title *</label>
+                    <input type="text" id="questTitle" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questCategory" class="form-label">Category *</label>
+                    <select id="questCategory" class="form-control" required>
+                        <option value="Main Quests">Main Quests</option>
+                        <option value="Side Quests">Side Quests</option>
+                        <option value="Guild Quests">Guild Quests</option>
+                        <option value="Personal Quests">Personal Quests</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questGiver" class="form-label">Quest Giver *</label>
+                    <input type="text" id="questGiver" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questLocation" class="form-label">Location *</label>
+                    <input type="text" id="questLocation" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questLevel" class="form-label">Level</label>
+                    <input type="number" id="questLevel" class="form-control" min="1" max="100" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="questDescription" class="form-label">Description *</label>
+                    <textarea id="questDescription" class="form-control" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questReward" class="form-label">Reward</label>
+                    <input type="text" id="questReward" class="form-control">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-medieval btn-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-medieval btn-primary">Add Quest</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="addLogModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Progress Log</h2>
+                <span class="modal-close">&times;</span>
+            </div>
+            <form id="addLogForm" class="modal-body">
+                <div class="form-group">
+                    <label for="logText" class="form-label">Log Entry *</label>
+                    <textarea id="logText" class="form-control" rows="4" maxlength="500" required></textarea>
+                    <div class="char-counter">
+                        <span class="char-count">0</span>/500 characters
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="logLocation" class="form-label">Location (Optional)</label>
+                    <input type="text" id="logLocation" class="form-control">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-medieval btn-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-medieval btn-primary">Add Log</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="addObjectiveModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Objective</h2>
+                <span class="modal-close">&times;</span>
+            </div>
+            <form id="addObjectiveForm" class="modal-body">
+                <div class="form-group">
+                    <label for="objectiveText" class="form-label">Objective *</label>
+                    <input type="text" id="objectiveText" class="form-control" required>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-medieval btn-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-medieval btn-primary">Add Objective</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+// Skyrim Quest Journal Application
+class QuestJournal {
+    constructor() {
+        this.quests = [];
+        this.currentQuest = null;
+        this.nextQuestId = 1;
+        this.STORAGE_KEY = 'skyrimQuestJournal';
+        
+        // Sound system (placeholder)
+        this.sounds = {
+            pageturn: 'sounds/pageturn.wav',
+            scrollUnfurl: 'sounds/scroll-unfurl.wav',
+            quillWriting: 'sounds/quill-writing.wav',
+            parchmentRustle: 'sounds/parchment-rustle.wav',
+            questComplete: 'sounds/quest-complete.wav',
+            ambientMedieval: 'sounds/ambient-medieval.wav'
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        this.loadData();
+        this.bindEvents();
+        this.renderQuestCategories();
+        this.playSound('ambientMedieval', { loop: true, volume: 0.3 });
+    }
+    
+    // Sound system (placeholder implementation)
+    playSound(soundName, options = {}) {
+        // In a real implementation, this would play actual sound files
+        console.log(`Playing sound: ${soundName}`, options);
+    }
+    
+    // Save data to localStorage
+    saveData() {
+        const dataToSave = {
+            quests: this.quests,
+            nextQuestId: this.nextQuestId,
+            lastSaved: new Date().toISOString()
+        };
+        
+        try {
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(dataToSave));
+        } catch (e) {
+            console.error('Failed to save quest data:', e);
+            this.showNotification('Failed to save quest data!', 'error');
+        }
+    }
+    
+    // Load data from localStorage or use sample data
+    loadData() {
+        try {
+            const savedData = localStorage.getItem(this.STORAGE_KEY);
+            
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                this.quests = parsedData.quests || [];
+                this.nextQuestId = parsedData.nextQuestId || 1;
+                
+                // Show when data was last saved
+                if (parsedData.lastSaved) {
+                    const lastSaved = new Date(parsedData.lastSaved);
+                    console.log(`Loaded quest data from ${lastSaved.toLocaleString()}`);
+                }
+            } else {
+                // No saved data, load sample data
+                this.loadSampleData();
+                this.saveData(); // Save the sample data
+            }
+        } catch (e) {
+            console.error('Failed to load quest data:', e);
+            this.showNotification('Failed to load saved data, using sample quests', 'warning');
+            this.loadSampleData();
+        }
+    }
+    
+    // Reset to sample data
+    resetToSampleData() {
+        if (confirm('This will delete all your current quests and restore the sample quests. Are you sure?')) {
+            localStorage.removeItem(this.STORAGE_KEY);
+            this.loadSampleData();
+            this.saveData();
+            this.currentQuest = null;
+            this.renderQuestCategories();
+            
+            // Hide quest details
+            document.querySelector('.quest-placeholder').style.display = 'block';
+            document.querySelector('.quest-info').style.display = 'none';
+            
+            this.showNotification('Quest journal reset to sample data!', 'success');
+        }
+    }
+    
+    // Load sample quest data
+    loadSampleData() {
+        const sampleQuests = [
+            {
+                id: 1,
+                title: "Dragonslayer's Path",
+                category: "Main Quests",
+                questGiver: "Jarl Balgruuf",
+                description: "The ancient dragons have returned to Skyrim. Discover the truth behind their resurrection and fulfill your destiny as the Dragonborn.",
+                location: "Whiterun",
+                level: 5,
+                reward: "Thu'um mastery, 500 gold",
+                status: "active",
+                objectives: [
+                    { text: "Speak with the Greybeards at High Hrothgar", completed: false },
+                    { text: "Learn the first Thu'um", completed: false },
+                    { text: "Investigate the dragon sightings near Riften", completed: false }
+                ],
+                progressLogs: [
+                    { timestamp: "2024-11-15T10:30:00", location: "Whiterun", text: "Received word from the Jarl about strange dragon sightings. The people are frightened, and rightfully so." },
+                    { timestamp: "2024-11-16T14:22:00", location: "Road to High Hrothgar", text: "Climbing the mountain path to meet the Greybeards. The wind carries whispers of ancient power." }
+                ],
+                dateStarted: "2024-11-15",
+                dateCompleted: null
+            },
+            {
+                id: 2,
+                title: "The Missing Merchant",
+                category: "Side Quests",
+                questGiver: "Innkeeper Hulda",
+                description: "A traveling merchant named Eriksson has not arrived in Whiterun as expected. His wife fears the worst.",
+                location: "Whiterun Inn",
+                level: 2,
+                reward: "200 gold, healing potions",
+                status: "completed",
+                objectives: [
+                    { text: "Search the road between Whiterun and Riverwood", completed: true },
+                    { text: "Find clues about Eriksson's disappearance", completed: true },
+                    { text: "Return to Hulda with news", completed: true }
+                ],
+                progressLogs: [
+                    { timestamp: "2024-11-10T09:15:00", location: "Whiterun Inn", text: "Hulda approached me with worried eyes. Eriksson should have arrived three days ago." },
+                    { timestamp: "2024-11-10T16:45:00", location: "Forest Road", text: "Found bandit tracks and Eriksson's cart overturned. Signs of struggle but no body." },
+                    { timestamp: "2024-11-11T11:30:00", location: "Bandit Cave", text: "Rescued Eriksson from a group of bandits. He was injured but alive." },
+                    { timestamp: "2024-11-11T12:00:00", location: "Whiterun Inn", text: "SYSTEM: Quest completed successfully!" }
+                ],
+                dateStarted: "2024-11-10",
+                dateCompleted: "2024-11-11"
+            },
+            {
+                id: 3,
+                title: "Thieves Guild Initiation",
+                category: "Guild Quests",
+                questGiver: "Brynjolf",
+                description: "Prove your worth to the Thieves Guild by completing a series of tests in stealth and cunning.",
+                location: "Riften",
+                level: 3,
+                reward: "Guild membership, lockpicks",
+                status: "active",
+                objectives: [
+                    { text: "Pickpocket three citizens without being caught", completed: false },
+                    { text: "Break into the abandoned house undetected", completed: false },
+                    { text: "Meet Brynjolf at the Ragged Flagon", completed: false }
+                ],
+                progressLogs: [
+                    { timestamp: "2024-11-14T20:00:00", location: "Riften Market", text: "Brynjolf gave me the challenge. Three pickpockets without alerting the guards." }
+                ],
+                dateStarted: "2024-11-14",
+                dateCompleted: null
+            },
+            {
+                id: 4,
+                title: "Collect Rare Herbs",
+                category: "Personal Quests",
+                questGiver: "Self",
+                description: "Gather rare alchemical ingredients from dangerous locations across Skyrim for my personal research.",
+                location: "Various",
+                level: 1,
+                reward: "Alchemical knowledge",
+                status: "active",
+                objectives: [
+                    { text: "Find 5 Crimson Nirnroot samples", completed: false },
+                    { text: "Harvest Moon Sugar from Khajiit caravans", completed: false },
+                    { text: "Collect Dragon's Tongue from volcanic areas", completed: false }
+                ],
+                progressLogs: [
+                    { timestamp: "2024-11-12T08:00:00", location: "Personal Study", text: "Decided to expand my alchemical knowledge. These rare ingredients could unlock powerful potions." },
+                    { timestamp: "2024-11-13T15:30:00", location: "Blackreach", text: "Found the first Crimson Nirnroot! The underground caverns hold many secrets." }
+                ],
+                dateStarted: "2024-11-12",
+                dateCompleted: null
+            },
+            {
+                id: 5,
+                title: "The Cursed Amulet",
+                category: "Abandoned Quests",
+                questGiver: "Mysterious Stranger",
+                description: "A hooded figure offered gold in exchange for retrieving a cursed amulet from an ancient tomb.",
+                location: "Solitude Docks",
+                level: 7,
+                reward: "1000 gold (promised)",
+                status: "abandoned",
+                objectives: [
+                    { text: "Find the tomb of Vokun the Deceiver", completed: false },
+                    { text: "Retrieve the Amulet of Shadows", completed: false },
+                    { text: "Return to the mysterious stranger", completed: false }
+                ],
+                progressLogs: [
+                    { timestamp: "2024-11-08T19:45:00", location: "Solitude Docks", text: "A cloaked figure approached me with an offer. Something felt wrong about this quest." },
+                    { timestamp: "2024-11-09T12:00:00", location: "Ancient Tomb", text: "The tomb was filled with powerful draugr. The cursed amulet emanated dark energy." },
+                    { timestamp: "2024-11-09T14:15:00", location: "Ancient Tomb", text: "SYSTEM: Quest abandoned - decided the risk was too great for uncertain reward." }
+                ],
+                dateStarted: "2024-11-08",
+                dateCompleted: null
+            }
+        ];
+        
+        this.quests = sampleQuests;
+        this.nextQuestId = Math.max(...sampleQuests.map(q => q.id)) + 1;
+    }
+    
+    // Event binding
+    bindEvents() {
+        // Category toggle
+        document.querySelectorAll('.category-header').forEach(header => {
+            header.addEventListener('click', (e) => {
+                this.toggleCategory(e.currentTarget.closest('.category-section'));
+                this.playSound('parchmentRustle');
+            });
+        });
+        
+        // Add quest button
+        document.querySelector('.btn-add-quest').addEventListener('click', () => {
+            this.showAddQuestModal();
+            this.playSound('scrollUnfurl');
+        });
+        
+        // Reset button
+        document.querySelector('.btn-reset').addEventListener('click', () => {
+            this.resetToSampleData();
+        });
+        
+        // Modal events
+        this.bindModalEvents();
+        
+        // Quest action buttons
+        document.querySelector('.btn-complete').addEventListener('click', () => {
+            this.completeQuest();
+        });
+        
+        document.querySelector('.btn-abandon').addEventListener('click', () => {
+            this.abandonQuest();
+        });
+        
+        document.querySelector('.btn-reactivate').addEventListener('click', () => {
+            this.reactivateQuest();
+        });
+        
+        document.querySelector('.btn-add-log').addEventListener('click', () => {
+            this.showAddLogModal();
+        });
+        
+        document.querySelector('.btn-add-objective').addEventListener('click', () => {
+            this.showAddObjectiveModal();
+        });
+    }
+    
+    bindModalEvents() {
+        // Close modal buttons
+        document.querySelectorAll('.modal-close, .btn-cancel').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.closeModal(e.target.closest('.modal'));
+                this.playSound('pageturn');
+            });
+        });
+        
+        // Modal backdrop clicks
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    this.closeModal(modal);
+                    this.playSound('pageturn');
+                }
+            });
+        });
+        
+        // Form submissions
+        document.getElementById('addQuestForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleAddQuest();
+        });
+        
+        document.getElementById('addLogForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleAddLog();
+        });
+        
+        document.getElementById('addObjectiveForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleAddObjective();
+        });
+        
+        // Character counter for log text
+        document.getElementById('logText').addEventListener('input', (e) => {
+            const counter = document.querySelector('.char-count');
+            counter.textContent = e.target.value.length;
+        });
+    }
+    
+    // Toggle category visibility
+    toggleCategory(categorySection) {
+        categorySection.classList.toggle('collapsed');
+    }
+    
+    // Render quest categories and lists
+    renderQuestCategories() {
+        const categories = {
+            'Main Quests': this.getQuestsByCategory('Main Quests'),
+            'Side Quests': this.getQuestsByCategory('Side Quests'),
+            'Guild Quests': this.getQuestsByCategory('Guild Quests'),
+            'Personal Quests': this.getQuestsByCategory('Personal Quests'),
+            'Completed Quests': this.quests.filter(q => q.status === 'completed'),
+            'Abandoned Quests': this.quests.filter(q => q.status === 'abandoned')
+        };
+        
+        Object.entries(categories).forEach(([categoryName, quests]) => {
+            const categorySection = document.querySelector(`[data-category="${categoryName}"]`);
+            if (categorySection) {
+                const questList = categorySection.querySelector('.quest-list');
+                
+                questList.innerHTML = '';
+                
+                quests.forEach(quest => {
+                    const questItem = this.createQuestListItem(quest);
+                    questList.appendChild(questItem);
+                });
+                
+                // Update category count in header
+                const header = categorySection.querySelector('.category-header');
+                const categoryText = header.textContent.replace(/\(\d+\)/, '').trim();
+                if (quests.length > 0) {
+                    header.innerHTML = header.innerHTML.replace(categoryText, `${categoryText} (${quests.length})`);
+                }
+            }
+        });
+    }
+    
+    // Get quests by category, excluding completed and abandoned unless it's their specific category
+    getQuestsByCategory(category) {
+        return this.quests.filter(q => 
+            q.category === category && 
+            q.status !== 'completed' && 
+            q.status !== 'abandoned'
+        );
+    }
+    
+    // Create quest list item element
+    createQuestListItem(quest) {
+        const li = document.createElement('li');
+        li.className = 'quest-item';
+        li.dataset.questId = quest.id;
+        
+        li.innerHTML = `
+            <div class="quest-item-title">${quest.title}</div>
+            <div class="quest-item-meta">
+                <span>Level ${quest.level}</span>
+                <span class="quest-status-badge ${quest.status}">${quest.status.toUpperCase()}</span>
+            </div>
+        `;
+        
+        li.addEventListener('click', () => {
+            this.selectQuest(quest.id);
+            this.playSound('scrollUnfurl');
+        });
+        
+        return li;
+    }
+    
+    // Select and display quest
+    selectQuest(questId) {
+        this.currentQuest = this.quests.find(q => q.id === questId);
+        
+        // Update active state in sidebar
+        document.querySelectorAll('.quest-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        const selectedItem = document.querySelector(`[data-quest-id="${questId}"]`);
+        if (selectedItem) {
+            selectedItem.classList.add('active');
+        }
+        
+        // Show quest details
+        this.renderQuestDetails();
+    }
+    
+    // Render quest details panel
+    renderQuestDetails() {
+        if (!this.currentQuest) return;
+        
+        const placeholder = document.querySelector('.quest-placeholder');
+        const questInfo = document.querySelector('.quest-info');
+        
+        placeholder.style.display = 'none';
+        questInfo.style.display = 'block';
+        
+        // Update quest header
+        document.querySelector('.quest-name').textContent = this.currentQuest.title;
+        
+        const questMeta = document.querySelector('.quest-meta');
+        questMeta.innerHTML = `
+            <span>Given by: ${this.currentQuest.questGiver}</span>
+            <span>Location: ${this.currentQuest.location}</span>
+            <span>Level: ${this.currentQuest.level}</span>
+            <span class="quest-status-badge ${this.currentQuest.status}">Status: ${this.currentQuest.status.toUpperCase()}</span>
+        `;
+        
+        // Update description
+        document.querySelector('.description-text').textContent = this.currentQuest.description;
+        
+        // Update reward
+        document.querySelector('.reward-text').textContent = this.currentQuest.reward || 'No reward specified';
+        
+        // Render objectives
+        this.renderObjectives();
+        
+        // Render progress logs
+        this.renderProgressLogs();
+        
+        // Update action buttons
+        this.updateActionButtons();
+    }
+    
+    // Render quest objectives
+    renderObjectives() {
+        const objectivesList = document.querySelector('.objectives-list');
+        objectivesList.innerHTML = '';
+        
+        this.currentQuest.objectives.forEach((objective, index) => {
+            const li = document.createElement('li');
+            li.className = 'objective-item';
+            
+            li.innerHTML = `
+                <div class="objective-checkbox ${objective.completed ? 'completed' : ''}" 
+                     data-objective-index="${index}"></div>
+                <div class="objective-text ${objective.completed ? 'completed' : ''}">${objective.text}</div>
+            `;
+            
+            const checkbox = li.querySelector('.objective-checkbox');
+            checkbox.addEventListener('click', () => {
+                this.toggleObjective(index);
+                this.playSound('quillWriting');
+            });
+            
+            objectivesList.appendChild(li);
+        });
+    }
+    
+    // Toggle objective completion
+    toggleObjective(index) {
+        this.currentQuest.objectives[index].completed = !this.currentQuest.objectives[index].completed;
+        this.renderObjectives();
+        this.updateQuestInArray();
+        this.saveData(); // Save after toggling objective
+    }
+    
+    // Render progress logs
+    renderProgressLogs() {
+        const progressLogs = document.querySelector('.progress-logs');
+        progressLogs.innerHTML = '';
+        
+        // Sort logs by timestamp (most recent first)
+        const sortedLogs = [...this.currentQuest.progressLogs].sort((a, b) => 
+            new Date(b.timestamp) - new Date(a.timestamp)
+        );
+        
+        sortedLogs.forEach(log => {
+            const logElement = document.createElement('div');
+            logElement.className = 'progress-log';
+            
+            const date = new Date(log.timestamp);
+            const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            logElement.innerHTML = `
+                <div class="log-header">
+                    <span class="log-timestamp">${formattedDate}</span>
+                    ${log.location ? `<span class="log-location">${log.location}</span>` : ''}
+                </div>
+                <div class="log-text">${log.text}</div>
+            `;
+            
+            progressLogs.appendChild(logElement);
+        });
+    }
+    
+    // Update action buttons based on quest status
+    updateActionButtons() {
+        const completeBtn = document.querySelector('.btn-complete');
+        const abandonBtn = document.querySelector('.btn-abandon');
+        const reactivateBtn = document.querySelector('.btn-reactivate');
+        
+        if (this.currentQuest.status === 'active') {
+            completeBtn.style.display = 'inline-flex';
+            abandonBtn.style.display = 'inline-flex';
+            reactivateBtn.style.display = 'none';
+        } else if (this.currentQuest.status === 'completed') {
+            completeBtn.style.display = 'none';
+            abandonBtn.style.display = 'none';
+            reactivateBtn.style.display = 'inline-flex';
+        } else if (this.currentQuest.status === 'abandoned') {
+            completeBtn.style.display = 'none';
+            abandonBtn.style.display = 'none';
+            reactivateBtn.style.display = 'inline-flex';
+        }
+    }
+    
+    // Complete quest
+    completeQuest() {
+        if (!this.currentQuest || this.currentQuest.status !== 'active') return;
+        
+        if (confirm('Mark this quest as completed?')) {
+            this.currentQuest.status = 'completed';
+            this.currentQuest.dateCompleted = new Date().toISOString().split('T')[0];
+            
+            // Mark all objectives as completed
+            this.currentQuest.objectives.forEach(obj => obj.completed = true);
+            
+            // Add system log
+            this.currentQuest.progressLogs.push({
+                timestamp: new Date().toISOString(),
+                location: '',
+                text: 'SYSTEM: Quest completed successfully!'
+            });
+            
+            this.updateQuestInArray();
+            this.renderQuestCategories();
+            this.renderQuestDetails();
+            this.saveData(); // Save after completing quest
+            
+            // Show success message
+            this.showNotification('Quest completed and moved to Completed Quests!', 'success');
+            this.playSound('questComplete');
+        }
+    }
+    
+    // Abandon quest
+    abandonQuest() {
+        if (!this.currentQuest || this.currentQuest.status !== 'active') return;
+        
+        if (confirm('Are you sure you want to abandon this quest? You can reactivate it later from the Abandoned Quests section.')) {
+            this.currentQuest.status = 'abandoned';
+            
+            // Add system log
+            this.currentQuest.progressLogs.push({
+                timestamp: new Date().toISOString(),
+                location: '',
+                text: 'SYSTEM: Quest abandoned - can be reactivated later if desired.'
+            });
+            
+            this.updateQuestInArray();
+            this.renderQuestCategories();
+            this.renderQuestDetails();
+            this.saveData(); // Save after abandoning quest
+            
+            // Show notification
+            this.showNotification('Quest abandoned and moved to Abandoned Quests.', 'warning');
+            this.playSound('parchmentRustle');
+        }
+    }
+    
+    // Reactivate quest
+    reactivateQuest() {
+        if (!this.currentQuest || this.currentQuest.status === 'active') return;
+        
+        if (confirm('Reactivate this quest?')) {
+            this.currentQuest.status = 'active';
+            this.currentQuest.dateCompleted = null;
+            
+            // Add system log
+            this.currentQuest.progressLogs.push({
+                timestamp: new Date().toISOString(),
+                location: '',
+                text: 'SYSTEM: Quest reactivated and added back to active quests.'
+            });
+            
+            this.updateQuestInArray();
+            this.renderQuestCategories();
+            this.renderQuestDetails();
+            this.saveData(); // Save after reactivating quest
+            
+            // Show notification
+            this.showNotification('Quest reactivated!', 'success');
+            this.playSound('scrollUnfurl');
+        }
+    }
+    
+    // Update quest in the array
+    updateQuestInArray() {
+        const index = this.quests.findIndex(q => q.id === this.currentQuest.id);
+        if (index !== -1) {
+            this.quests[index] = { ...this.currentQuest };
+        }
+    }
+    
+    // Show notification
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#4CAF50' : type === 'warning' ? '#FF9800' : type === 'error' ? '#F44336' : '#2196F3'};
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-family: 'Cinzel', serif;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease forwards';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+    
+    // Modal functions
+    showAddQuestModal() {
+        const modal = document.getElementById('addQuestModal');
+        modal.style.display = 'block';
+        document.getElementById('questTitle').focus();
+    }
+    
+    showAddLogModal() {
+        if (!this.currentQuest) return;
+        
+        const modal = document.getElementById('addLogModal');
+        modal.style.display = 'block';
+        document.getElementById('logText').focus();
+        
+        // Reset character counter
+        document.querySelector('.char-count').textContent = '0';
+    }
+    
+    showAddObjectiveModal() {
+        if (!this.currentQuest) return;
+        
+        const modal = document.getElementById('addObjectiveModal');
+        modal.style.display = 'block';
+        document.getElementById('objectiveText').focus();
+    }
+    
+    closeModal(modal) {
+        modal.style.display = 'none';
+        
+        // Reset forms completely
+        modal.querySelectorAll('form').forEach(form => {
+            form.reset();
+            // Reset character counter
+            const charCount = form.querySelector('.char-count');
+            if (charCount) {
+                charCount.textContent = '0';
+            }
+        });
+    }
+    
+    // Form handlers
+    handleAddQuest() {
+        const newQuest = {
+            id: this.nextQuestId++,
+            title: document.getElementById('questTitle').value.trim(),
+            category: document.getElementById('questCategory').value,
+            questGiver: document.getElementById('questGiver').value.trim(),
+            location: document.getElementById('questLocation').value.trim(),
+            level: parseInt(document.getElementById('questLevel').value) || 1,
+            description: document.getElementById('questDescription').value.trim(),
+            reward: document.getElementById('questReward').value.trim() || 'No reward specified',
+            status: 'active',
+            objectives: [],
+            progressLogs: [{
+                timestamp: new Date().toISOString(),
+                location: document.getElementById('questLocation').value.trim(),
+                text: 'SYSTEM: Quest added to journal.'
+            }],
+            dateStarted: new Date().toISOString().split('T')[0],
+            dateCompleted: null
+        };
+        
+        this.quests.push(newQuest);
+        this.saveData(); // Save after adding new quest
+        this.renderQuestCategories();
+        this.closeModal(document.getElementById('addQuestModal'));
+        this.selectQuest(newQuest.id);
+        
+        // Show notification
+        this.showNotification(`New quest "${newQuest.title}" added to ${newQuest.category}!`, 'success');
+        this.playSound('quillWriting');
+    }
+    
+    handleAddLog() {
+        if (!this.currentQuest) return;
+        
+        const logText = document.getElementById('logText').value.trim();
+        const logLocation = document.getElementById('logLocation').value.trim();
+        
+        if (!logText) return;
+        
+        const newLog = {
+            timestamp: new Date().toISOString(),
+            location: logLocation,
+            text: logText
+        };
+        
+        this.currentQuest.progressLogs.push(newLog);
+        this.updateQuestInArray();
+        this.saveData(); // Save after adding log
+        this.renderProgressLogs();
+        this.closeModal(document.getElementById('addLogModal'));
+        
+        // Show notification
+        this.showNotification('Progress log added successfully!', 'success');
+        this.playSound('quillWriting');
+    }
+    
+    handleAddObjective() {
+        if (!this.currentQuest) return;
+        
+        const objectiveText = document.getElementById('objectiveText').value.trim();
+        if (!objectiveText) return;
+        
+        const newObjective = {
+            text: objectiveText,
+            completed: false
+        };
+        
+        this.currentQuest.objectives.push(newObjective);
+        this.updateQuestInArray();
+        this.saveData(); // Save after adding objective
+        this.renderObjectives();
+        this.closeModal(document.getElementById('addObjectiveModal'));
+        
+        // Show notification
+        this.showNotification('New objective added!', 'success');
+        this.playSound('quillWriting');
+    }
+}
+
+// Initialize the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.questJournal = new QuestJournal();
+});
+    </script>
+</body>
+</html>
